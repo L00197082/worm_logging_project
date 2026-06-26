@@ -1,0 +1,13 @@
+# Ignore the local WORM data discovery
+data/
+
+# Ignore Python cache artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Ignore IDE configuration files
+.vscode/
+.idea/
