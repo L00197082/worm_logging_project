@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  worm-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      # Named volume keeps data persistent, simulating an external secure store
+      - ./data:/data
+    environment:
+      - PYTHONUNBUFFERED=1
+
+volumes:
+  worm-data:
