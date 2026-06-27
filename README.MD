@@ -23,8 +23,21 @@ pre-existing log blocks can never be overwritten.
 3. **Isolated Environment Layer Bind Mounts:** Storage volumes partition the
 logical audit trail safely into a decoupled sandbox, ensuring persistent
 tracking of data integrity.
+4. **Cryptographic Hash Chaining (SHA-256):** Every log entry dynamically encapsulates
+a UTC timestamp, message source, raw text payload, and the exact cryptographic signature
+of the preceding block. This forms an unbroken dependency chain anchored to a Genesis 
+block.
+5. **Hybrid Storage Architecture:** * **Local Layer:** Appends securely to a localized,
+persistent volume ledger (`/data/worm_store.log`) for rapid API reads and real-time 
+auditing.
+6. **Cloud Layer:** Streams individual log blocks to an isolated **Azure Blob Storage Container**
+managed under a Time-Based Immutable Retention Policy.
 
-<hr>
+## Tech Stack & Dependencies
+
+* **Backend Framework:** FastAPI (Python 3.10+)
+* **Containerization & Environment Sandboxing:** Docker & Docker Compose
+* **Cloud Infrastructure Integration:** Azure Blob Storage SDK
 
 ## Quick start guide
 
@@ -32,7 +45,7 @@ The environment is completely containerized. No configuration is needed
 of local Python virtual environments (`venv`) or manually resolve missing
 dependencies.
 
-### Prerequisites
+### Prequsistes
 
 Ensure you have [Docker Desktop](https://docs.docker.com/desktop/) installed and
 running on your host machine.
@@ -79,4 +92,4 @@ connection to the API endpoint with an immutable policy violation flag.
 
 To exit the runtime environment and stop listening on the network ports, press
 Ctrl + C in the primary terminal window. Or execute the following:
-```docker-compose down```
+```docker-comp```
