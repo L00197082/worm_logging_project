@@ -61,7 +61,7 @@ git clone [https://github.com/L00197082/worm_logging_project.git](https://github
 1. In the root directory, locate the `.env.example` file.
 2. Create a copy of this file in the root directory and rename it to `.env`:
 ```copy 
-.env.example .env
+copy .env.example .env
 ```
 3. Open up app/.env and populate it with your specific Azure credentials:
 AZURE_STORAGE_CONNECTION_STRNG="DefaultEndpointsProtocol=https;AccountName=your_account;AccountKey=your_key;..."
@@ -71,11 +71,10 @@ CONTAINER_NAME="compliance-audit-logs"
 ``docker-compose up --build -d``
 Leave the terminal window open. Once initialization is complete, a terminal 
 confirmation log will indicate that the web server is live:
-*INFO: Uvicorn running on http://0.0.0.0:8000*
 
 ### 3. Access the Graphical Test Dashboard
 Open a web browser and navigate to the API control panel:
-*INFO: Uvicorn running on http://0.0.0.0:8000/docs*
+*INFO: Uvicorn running on http://localhost:8000/docs*
 
 The Swagger interface allows you to interact with the core features:
 - POST /logs: Submit a new log payload (creates a validated timestamped entry).
