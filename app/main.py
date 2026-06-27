@@ -1,16 +1,22 @@
 import hashlib
 import os
+from dotenv import load_dotenv
 from azure.storage.blob import BlobServiceClient
 from datetime import datetime
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 
+print("DEBUG ENVIRONMENT KEYS:", list(os.environ.keys()))
+
+# Load environment variables from a local .env file it it exists
+load_dotenv()
+
 app = FastAPI(title="Cryptographic WORM System")
 LOG_FILE_PATH = os.path.abspath("/data/worm_store.log")
 
-# Azure Configuration Extraction
-AZURE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=workstorageleg01;AccountKey=JGpZmZaLU6DoKE8EnCoqzXIIiQQIJQxDPsecbWjzrKOexQMGzNmaPMpzqeA3Gdc88++NP+Rb7Bxb+AStlVrUkQ==;EndpointSuffix=core.windows.net"
-CONTAINER_NAME = "compliance-audit-logs"
+# Azure Configuration Extraction from Environment Variables
+AZURE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+CONTAINER_NAME = os.getenv("AZURE_CONTAINER_NAME", "compliance-audit-logs")
 
 class LogEntry(BaseModel):
     source: str
@@ -27,13 +33,14 @@ def replicate_block_to_azure(blob_name: str, raw_og_line: str):
     clean_blob_name = blob_name.strip().lower().replace("_", "-")
 
     try:
+        # Pass the connection string
         blob_service_client = BlobServiceClient.from_connection_string(AZURE_CONNECTION_STRING)
         blob_client = blob_service_client.get_blob_client(container=CONTAINER_NAME, blob=clean_blob_name)
 
         # overwrite=False ensures that in the event of an attacker attempting to resend an existing
         # blob filename, Azure rejects the transaction immediately at the API boundary
         blob_client.upload_blob(raw_og_line, overwrite=False)
-        print(f"Successfully replicated {clean_blob_name} to Azure container '{AZURE_CONNECTION_STRING}'!")
+        print(f"Successfully replicated {clean_blob_name} to Azure container '{CONTAINER_NAME}'!")
     except Exception as cloud_err:
         print(f"Cloud asynchronous reapplication error skipped: {cloud_err}")
 

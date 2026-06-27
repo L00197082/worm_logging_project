@@ -5,12 +5,12 @@ services:
     build: .
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     volumes:
       # Named volume keeps data persistent, simulating an external secure store
       - ./data:/data
     environment:
       - PYTHONUNBUFFERED=1
-      # Azure connection string
-      - AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;AccountName=workstorageleg01;AccountKey=JGpZmZaLU6DoKE8EnCoqzXIIiQQIJQxDPsecbWjzrKOexQMGzNmaPMpzqeA3Gdc88++NP+Rb7Bxb+AStlVrUkQ==;EndpointSuffix=core.windows.net
 volumes:
   worm-data:

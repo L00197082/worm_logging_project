@@ -11,3 +11,6 @@ __pycache__/
 # Ignore IDE configuration files
 .vscode/
 .idea/
+
+# Ignore the .env file containing the live secret and configurations
+.env

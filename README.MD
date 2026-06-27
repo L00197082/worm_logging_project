@@ -45,16 +45,27 @@ The environment is completely containerized. No configuration is needed
 of local Python virtual environments (`venv`) or manually resolve missing
 dependencies.
 
-### Prequsistes
+### Prerequisites
 
-Ensure you have [Docker Desktop](https://docs.docker.com/desktop/) installed and
+1. Ensure you have [Docker Desktop](https://docs.docker.com/desktop/) installed and
 running on your host machine.
+2. **Python 3.10 installed**
+3. An active **Azure Storage Account** with an isolated Blob Container configured
 
 ### 1. Clone the Repository
 Open a terminal (PowerShell, Command Prompt, Git Bash) and execute the following:
 ```bash
 git clone [https://github.com/L00197082/worm_logging_project.git](https://github.com/L00197082/work_logging_project.git
 ```
+### 2. Environment Configuration
+1. In the root directory, locate the `.env.example` file.
+2. Create a copy of this file in the root directory and rename it to `.env`:
+```copy 
+.env.example .env
+```
+3. Open up app/.env and populate it with your specific Azure credentials:
+AZURE_STORAGE_CONNECTION_STRNG="DefaultEndpointsProtocol=https;AccountName=your_account;AccountKey=your_key;..."
+CONTAINER_NAME="your-compliance-container-name"
 
 ### 2. Spin Up the Application Environment
 ``docker-compose up --build``
