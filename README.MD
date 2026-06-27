@@ -163,4 +163,4 @@ be deleted or modified.
 
 To exit the runtime environment and stop listening on the network ports, press
 Ctrl + C in the primary terminal window. Or execute the following:
-```docker-comp```
+```docker-comp down```
